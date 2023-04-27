@@ -1,6 +1,7 @@
 package com.borisk58.caseaggregatorbackend.configuration;
 
 import com.borisk58.caseaggregatorbackend.services.aggregator.AggregatorService;
+import com.borisk58.caseaggregatorbackend.services.crmfetcher.CrmFetcherService;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.ServerApi;
@@ -30,4 +31,7 @@ public class Beans {
     public AggregatorService aggregatorService() {
         return new AggregatorService();
     }
+
+    @Bean
+    public CrmFetcherService crmFetcherService() { return new CrmFetcherService(); }
 }

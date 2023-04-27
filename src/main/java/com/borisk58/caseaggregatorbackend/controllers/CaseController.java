@@ -3,6 +3,7 @@ package com.borisk58.caseaggregatorbackend.controllers;
 import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
 import com.borisk58.caseaggregatorbackend.model.CaseStatus;
 import com.borisk58.caseaggregatorbackend.services.aggregator.AggregatorService;
+import com.borisk58.caseaggregatorbackend.services.crmfetcher.CrmFetcherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,9 @@ import java.util.List;
 public class CaseController {
     @Autowired
     AggregatorService aggregatorService;
+
+    @Autowired
+    CrmFetcherService crmFetcherService;
 
     @GetMapping("/cases")
     public ResponseEntity<List<AggregatedCase>> getAggregatedCases(

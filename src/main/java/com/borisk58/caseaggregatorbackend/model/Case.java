@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 public class Case {
   private int caseID;
   private String crm;
+  private int version;
   private int customerID;
   private String provider;
   private ErrorCode errorCode;
