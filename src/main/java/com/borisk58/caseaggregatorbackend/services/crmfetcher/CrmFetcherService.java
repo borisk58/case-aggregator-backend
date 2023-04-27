@@ -1,11 +1,8 @@
 package com.borisk58.caseaggregatorbackend.services.crmfetcher;
 
-import com.borisk58.caseaggregatorbackend.data.AggregatedCasesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-
 public class CrmFetcherService {
-    @Autowired
-    AggregatedCasesRepository repository;
+//    @Autowired
+//    CasesRepository repository;
 
     private int intervalHours = 4;
 
@@ -26,6 +23,6 @@ public class CrmFetcherService {
         String baseCrmUrl = "http://crm/homeassignment/";
         String url = String.format("%s%s", baseCrmUrl, crmName);
         // todo: implement call url (out of scope)
-        // so far: read from <crmName>.json and save to mongodb
+        // so far, read from <crmName>.json and save to mongodb
     }
 }

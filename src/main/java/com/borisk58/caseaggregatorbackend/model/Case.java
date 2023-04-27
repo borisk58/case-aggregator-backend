@@ -7,8 +7,9 @@ import java.time.LocalDateTime;
 @Document(collection = "cases")
 public class Case {
   private int caseID;
+  private String crm;
   private int customerID;
-  private int providerID;
+  private String provider;
   private ErrorCode errorCode;
   private CaseStatus status;
   private LocalDateTime ticketCreationTime;
