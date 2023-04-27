@@ -1,11 +1,13 @@
 package com.borisk58.caseaggregatorbackend.model;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.time.LocalDateTime;
 
 @Document(collection = "status")
 public class UpdateStatus {
+    @MongoId
     private String crm;
 
     public String getCrm() {

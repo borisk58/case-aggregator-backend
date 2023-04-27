@@ -1,6 +1,6 @@
 package com.borisk58.caseaggregatorbackend.services.aggregator;
 
-import com.borisk58.caseaggregatorbackend.data.AggregatedCasesRepository;
+import com.borisk58.caseaggregatorbackend.repositories.AggregatedCasesRepository;
 import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
 import com.borisk58.caseaggregatorbackend.model.CaseStatus;
 import org.springframework.beans.factory.annotation.Autowired;

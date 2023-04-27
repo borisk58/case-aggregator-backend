@@ -1,7 +1,7 @@
 package com.borisk58.caseaggregatorbackend.services.crmfetcher;
 
-import com.borisk58.caseaggregatorbackend.data.CasesRepository;
-import com.borisk58.caseaggregatorbackend.data.UpdateStatusRepository;
+import com.borisk58.caseaggregatorbackend.repositories.CasesRepository;
+import com.borisk58.caseaggregatorbackend.repositories.UpdateStatusRepository;
 import com.borisk58.caseaggregatorbackend.model.Case;
 import com.borisk58.caseaggregatorbackend.model.UpdateStatus;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 
 import java.io.*;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -22,9 +23,9 @@ public class CrmFetcherService {
     @Autowired
     UpdateStatusRepository statusRepository;
 
-    private int intervalHours = 4;
+    protected int intervalHours = 4;
 
-    private Map<String, Integer> currentVersion = new ConcurrentHashMap<>();
+    protected final Map<String, Integer> currentVersion = new ConcurrentHashMap<>();
 
     @PostConstruct
     public void startFetching() {
@@ -63,15 +64,37 @@ public class CrmFetcherService {
         String baseCrmUrl = "http://crm/homeassignment/";
         String url = String.format("%s%s", baseCrmUrl, crmName);
         // todo: implement calling the url (out of scope)
+
+        int version = 0;
+        if (currentVersion.containsKey(crmName)) {
+            version = currentVersion.get(crmName);
+        }
+
         // so far, read from <crmName>.json and save to mongodb
         ObjectMapper mapper = new ObjectMapper();
         TypeReference<List<Case>> typeReference = new TypeReference<>() {};
         List<Case> cases;
         try {
-            cases = mapper.readValue(new File(crmName + ".json"), typeReference);
+            cases = mapper.readValue(new File("data/" + crmName + ".json"), typeReference);
+            int finalVersion = version + 1;
+            cases.forEach(c -> {c.setCrm(crmName); c.setVersion(finalVersion);});
+            repository.saveAll(cases);
+
+            Case caseToDelete = new Case();
+            caseToDelete.setCrm(crmName);
+            caseToDelete.setVersion(version);
+            Example<Case> example = Example.of(caseToDelete);
+            List<Case> toDelete = repository.findAll(example);
+            repository.deleteAll(toDelete);
+
+            UpdateStatus status = new UpdateStatus();
+            status.setCrm(crmName);
+            status.setUpdateVersion(finalVersion);
+            status.setLastUpdated(LocalDateTime.now());
+            statusRepository.save(status);
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        repository.saveAll(cases);
     }
 }

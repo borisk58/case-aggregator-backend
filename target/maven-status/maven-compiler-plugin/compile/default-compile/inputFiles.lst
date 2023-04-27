@@ -1,12 +1,12 @@
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/model/Case.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/services/aggregator/AggregatorService.java
-/Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/data/AggregatedCasesRepository.java
+/Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/repositories/UpdateStatusRepository.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/configuration/Beans.java
-/Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/model/ErrorCode.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/services/crmfetcher/CrmFetcherService.java
-/Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/data/CasesRepository.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/model/UpdateStatus.java
+/Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/repositories/CasesRepository.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/model/CaseStatus.java
+/Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/repositories/AggregatedCasesRepository.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/model/AggregatedCase.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/CaseAggregatorApplication.java
 /Users/boris.katzman/work/kata/case-aggregator-backend/src/main/java/com/borisk58/caseaggregatorbackend/controllers/CaseController.java
