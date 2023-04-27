@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "Case ID": "strawberry:1",
+      "Case ID": 1,
       "Customer ID": 818591,
       "Provider": 10001121,
       "CREATED_ERROR_CODE": 101,
@@ -11,7 +11,7 @@
       "PRODUCT_NAME": "RED"
     },
     {
-      "Case ID": "strawberry:2",
+      "Case ID": 2,
       "Customer ID": 790521,
       "Provider": 11196,
       "CREATED_ERROR_CODE": 108,
@@ -21,7 +21,7 @@
       "PRODUCT_NAME": "GREEN"
     },
     {
-      "Case ID": "strawberry:3",
+      "Case ID": 3,
       "Customer ID": 738081,
       "Provider": 6111,
       "CREATED_ERROR_CODE": 324,
@@ -31,7 +31,7 @@
       "PRODUCT_NAME": "ORANGE"
     },
     {
-      "Case ID": "strawberry:4",
+      "Case ID": 4,
       "Customer ID": 729841,
       "Provider": 11181,
       "CREATED_ERROR_CODE": 122,

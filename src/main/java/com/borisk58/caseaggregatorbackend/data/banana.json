@@ -1,7 +1,7 @@
 {
   "data": [
     {
-      "Case ID": "banana:1",
+      "Case ID": 1,
       "Customer_ID": 818591,
       "Provider": 6111,
       "CREATED_ERROR_CODE": 324,
@@ -11,7 +11,7 @@
       "PRODUCT_NAME": "BLUE"
     },
     {
-      "Case ID": "banana:2",
+      "Case ID": 2,
       "Customer ID": 790521,
       "Provider": 26241,
       "CREATED_ERROR_CODE": 0,
@@ -21,7 +21,7 @@
       "PRODUCT_NAME": "BLUE"
     },
     {
-      "Case ID": "banana:3",
+      "Case ID": 3,
       "Customer ID": 738081,
       "Provider": 1211,
       "CREATED_ERROR_CODE": 101,
