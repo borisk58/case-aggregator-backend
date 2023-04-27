@@ -6,10 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AggregatedCasesRepository extends MongoRepository<AggregatedCase, Integer> {
-
-//    public void update(List<AggregatedCase> data);
-//
-//    public default List<AggregatedCase> fetch(Integer provider, Integer errorCode, CaseStatus caseStatus) {
-//        return null;
-//    }
 }

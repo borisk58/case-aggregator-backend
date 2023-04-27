@@ -1,8 +1,11 @@
 package com.borisk58.caseaggregatorbackend.services.crmfetcher;
 
+import com.borisk58.caseaggregatorbackend.data.CasesRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class CrmFetcherService {
-//    @Autowired
-//    CasesRepository repository;
+    @Autowired
+    CasesRepository repository;
 
     private int intervalHours = 4;
 

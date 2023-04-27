@@ -1,0 +1,12 @@
+com/borisk58/caseaggregatorbackend/data/AggregatedCasesRepository.class
+com/borisk58/caseaggregatorbackend/model/ErrorCode.class
+com/borisk58/caseaggregatorbackend/data/CasesRepository.class
+com/borisk58/caseaggregatorbackend/controllers/CaseController.class
+com/borisk58/caseaggregatorbackend/model/AggregatedCase.class
+com/borisk58/caseaggregatorbackend/configuration/Beans.class
+com/borisk58/caseaggregatorbackend/model/Case.class
+com/borisk58/caseaggregatorbackend/model/UpdateStatus.class
+com/borisk58/caseaggregatorbackend/model/CaseStatus.class
+com/borisk58/caseaggregatorbackend/services/aggregator/AggregatorService.class
+com/borisk58/caseaggregatorbackend/CaseAggregatorApplication.class
+com/borisk58/caseaggregatorbackend/services/crmfetcher/CrmFetcherService.class

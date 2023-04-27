@@ -6,5 +6,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CasesRepository  extends MongoRepository<Case, Integer> {
-    //public void updateCrmCases(String crm);
 }
