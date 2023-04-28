@@ -33,4 +33,9 @@ public class CasesRepositoryMock implements CasesRepository {
     public List<Case> findAllCases() {
         return caseMap.values().stream().toList();
     }
+
+    @Override
+    public void aggregate() {
+
+    }
 }
