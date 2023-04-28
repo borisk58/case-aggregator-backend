@@ -9,4 +9,6 @@ public interface CasesRepository {
     void deleteCases(List<Case> cases);
     List<Case> findCases(String crmName, int version);
     List<Case> findAllCases();
+
+    void aggregate();
 }

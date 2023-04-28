@@ -6,6 +6,7 @@ import com.borisk58.caseaggregatorbackend.model.Case;
 import com.borisk58.caseaggregatorbackend.model.UpdateStatus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.mongodb.client.MongoCollection;
 import jakarta.annotation.PostConstruct;
 
 import java.io.*;
@@ -61,6 +62,8 @@ public class CrmFetcherService {
     public void fetchCases() {
         fetchCrm("banana");
         fetchCrm("strawberry");
+
+        aggregateCases();
     }
 
     private void fetchCrm(String crmName) {
@@ -99,6 +102,6 @@ public class CrmFetcherService {
     }
 
     private void aggregateCases() {
-        List<Case> cases = repository.findAllCases();
+        repository.aggregate();
     }
 }
