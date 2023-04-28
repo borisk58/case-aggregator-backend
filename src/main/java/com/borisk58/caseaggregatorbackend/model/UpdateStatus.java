@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 public class UpdateStatus {
     @MongoId
     private String crm;
+    private LocalDateTime lastUpdated;
+    private int updateVersion;
 
     public String getCrm() {
         return crm;
@@ -33,7 +35,4 @@ public class UpdateStatus {
     public void setUpdateVersion(int updateVersion) {
         this.updateVersion = updateVersion;
     }
-
-    private LocalDateTime lastUpdated;
-    private int updateVersion;
 }

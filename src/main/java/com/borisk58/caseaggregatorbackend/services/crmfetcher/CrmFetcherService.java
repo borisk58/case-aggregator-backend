@@ -43,9 +43,9 @@ public class CrmFetcherService {
     }
 
     private void updateStatus() {
-        Example<UpdateStatus> example = Example.of(new UpdateStatus());
-        List<UpdateStatus> updateStatuses = statusRepository.findAll(example);
+        List<UpdateStatus> updateStatuses = statusRepository.findAll();
 
+        currentVersion.clear();
         for (UpdateStatus status : updateStatuses) {
             currentVersion.put(status.getCrm(), status.getUpdateVersion());
         }
@@ -55,7 +55,7 @@ public class CrmFetcherService {
 
     }
 
-    private void fetchCases() {
+    public void fetchCases() {
         fetchCrm("banana");
         fetchCrm("strawberry");
     }
@@ -77,7 +77,11 @@ public class CrmFetcherService {
         try {
             cases = mapper.readValue(new File("data/" + crmName + ".json"), typeReference);
             int finalVersion = version + 1;
-            cases.forEach(c -> {c.setCrm(crmName); c.setVersion(finalVersion);});
+            cases.forEach(c -> {
+                c.setCrm(crmName);
+                c.setVersion(finalVersion);
+                c.setCaseId(c.getOriginalCaseID());
+            });
             repository.saveAll(cases);
 
             Case caseToDelete = new Case();
@@ -92,6 +96,8 @@ public class CrmFetcherService {
             status.setUpdateVersion(finalVersion);
             status.setLastUpdated(LocalDateTime.now());
             statusRepository.save(status);
+
+            updateStatus();
 
         } catch (IOException e) {
             throw new RuntimeException(e);

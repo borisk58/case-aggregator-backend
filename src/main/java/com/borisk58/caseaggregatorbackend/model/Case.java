@@ -2,13 +2,16 @@ package com.borisk58.caseaggregatorbackend.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.time.LocalDateTime;
+import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Document(collection = "cases")
 public class Case {
   @JsonProperty("Case ID")
-  private int caseID;
+  private String originalCaseID;
+
+  public String getOriginalCaseID() {
+    return originalCaseID;
+  }
 
   @JsonProperty("Customer ID")
   private int customerID;
@@ -33,6 +36,14 @@ public class Case {
 
   // internal extensions
   private String crm;
+  private int version;
+
+  @MongoId
+  private String caseId;
+
+  public void setCaseId(String caseId) {
+    this.caseId = crm + "::" + originalCaseID;
+  }
 
   public void setCrm(String crm) {
     this.crm = crm;
@@ -42,7 +53,6 @@ public class Case {
     this.version = version;
   }
 
-  private int version;
 }
 
 

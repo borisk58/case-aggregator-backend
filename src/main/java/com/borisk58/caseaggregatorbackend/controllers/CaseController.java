@@ -36,6 +36,6 @@ public class CaseController {
 
     @PostMapping("/refresh")
     public void refreshOnDemand() {
-
+        crmFetcherService.fetchCases();
     }
 }

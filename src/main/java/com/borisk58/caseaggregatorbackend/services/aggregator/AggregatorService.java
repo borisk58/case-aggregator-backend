@@ -21,8 +21,6 @@ public class AggregatorService {
             aggregatedCase.setRequiredStatus(caseStatus);
             Example<AggregatedCase> example = Example.of(aggregatedCase);
             return repository.findAll(example);
-
-            //return repository.fetch(provider, errorCode, caseStatus);
         } catch (Exception e) {
             // log the exception
             return null;
