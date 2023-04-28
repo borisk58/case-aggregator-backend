@@ -1,16 +1,16 @@
 package com.borisk58.caseaggregatorbackend.services.crmfetcher;
 
+import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
+import com.borisk58.caseaggregatorbackend.repositories.AggregatedRepository;
 import com.borisk58.caseaggregatorbackend.repositories.CasesRepository;
 import com.borisk58.caseaggregatorbackend.repositories.StatusRepository;
 import com.borisk58.caseaggregatorbackend.model.Case;
 import com.borisk58.caseaggregatorbackend.model.UpdateStatus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.mongodb.client.MongoCollection;
 import jakarta.annotation.PostConstruct;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.*;
@@ -21,14 +21,17 @@ public class CrmFetcherService {
 
     private final StatusRepository statusRepository;
 
+    private final AggregatedRepository aggregatedRepository;
+
     protected int intervalHours = 4;
 
     protected final Map<String, Integer> currentVersion = new ConcurrentHashMap<>();
     private ScheduledExecutorService scheduler;
 
-    public CrmFetcherService(CasesRepository repository, StatusRepository statusRepository) {
+    public CrmFetcherService(CasesRepository repository, StatusRepository statusRepository, AggregatedRepository aggregatedRepository) {
         this.repository = repository;
         this.statusRepository = statusRepository;
+        this.aggregatedRepository = aggregatedRepository;
     }
 
     @PostConstruct
@@ -102,6 +105,8 @@ public class CrmFetcherService {
     }
 
     private void aggregateCases() {
-        repository.aggregate();
+        int version = statusRepository.getVersion("aggregated");
+        List<AggregatedCase> aggregated = repository.aggregate(version);
+
     }
 }

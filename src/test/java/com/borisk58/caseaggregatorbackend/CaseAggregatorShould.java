@@ -16,7 +16,8 @@ class CaseAggregatorShould {
 	void insertAllNewCases() {
 		CasesRepositoryMock repo = new CasesRepositoryMock();
 		StatusRepositoryMock statusRepo = new StatusRepositoryMock();
-		CrmFetcherService fetcherService = new CrmFetcherService(repo, statusRepo);
+		AggregatedRepositoryMock aggregatedRepo = new AggregatedRepositoryMock();
+		CrmFetcherService fetcherService = new CrmFetcherService(repo, statusRepo, aggregatedRepo);
 		fetcherService.fetchCases();
 		Assert.isTrue((long) repo.findAllCases().size() == 7, "count of cases is not as expected");
 		Assert.isTrue((long) statusRepo.findAllStatuses().size() == 2, "not all CRMs were queried");

@@ -1,5 +1,6 @@
 package com.borisk58.caseaggregatorbackend;
 
+import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
 import com.borisk58.caseaggregatorbackend.model.Case;
 import com.borisk58.caseaggregatorbackend.repositories.CasesRepository;
 
@@ -35,7 +36,7 @@ public class CasesRepositoryMock implements CasesRepository {
     }
 
     @Override
-    public void aggregate() {
-
+    public List<AggregatedCase> aggregate(int version) {
+        return null;
     }
 }

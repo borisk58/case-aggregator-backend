@@ -1,9 +1,7 @@
 package com.borisk58.caseaggregatorbackend.repositories;
 
+import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
 import com.borisk58.caseaggregatorbackend.model.Case;
-import com.mongodb.client.AggregateIterable;
-import com.mongodb.client.MongoCollection;
-import org.bson.Document;
 import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -11,8 +9,9 @@ import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class CasesRepositoryImpl extends SimpleMongoRepository<Case, Integer> implements CasesRepository {
@@ -48,19 +47,28 @@ public class CasesRepositoryImpl extends SimpleMongoRepository<Case, Integer> im
     }
 
     @Override
-    public void aggregate() {
-        MongoCollection<Document> collection = mongoTemplate.getCollection("cases");
-        AggregateIterable<Document> result = collection.aggregate(Arrays.asList(
-                new Document("$group", new Document("_id", new Document("errorCode", "$errorCode").append("provider", "$provider"))
-                        .append("documents", new Document("$push", "$$ROOT"))
-                ),
-                new Document("$out", "groupedByErrorCodeAndProvider")
-        ));
+    public List<AggregatedCase> aggregate(int version) {
+        Map<String, AggregatedCase> aggregatedCaseMap = new Hashtable<>();
 
-        // Iterate over the results to trigger the aggregation
-        for (Document document : result) {
-            // Do nothing, just iterate over the result
+        List<Case> cases = super.findAll();
+        for (Case caseObj : cases) {
+            Integer errorCode = caseObj.getErrorCode();
+            Integer provider = caseObj.getProvider();
+            String key = String.format("%d::%s", errorCode, provider);
+            AggregatedCase agg;
+            if (!aggregatedCaseMap.containsKey(key)) {
+                agg = new AggregatedCase();
+                agg.setErrorCode(errorCode);
+                agg.setProvider(provider);
+                aggregatedCaseMap.put(key, agg);
+            } else {
+                agg = aggregatedCaseMap.get(key);
+            }
+            agg.getCases().add(caseObj);
+            agg.getAffectedProducts().add(caseObj.getProductName());
+            agg.setVersion(version);
         }
 
+        return aggregatedCaseMap.values().stream().toList();
     }
 }

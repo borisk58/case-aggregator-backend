@@ -7,4 +7,5 @@ import java.util.List;
 public interface StatusRepository {
     void saveStatus(String crm, int version);
     List<UpdateStatus> findAllStatuses();
+    int getVersion(String key);
 }

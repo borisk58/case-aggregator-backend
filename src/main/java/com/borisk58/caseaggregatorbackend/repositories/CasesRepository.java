@@ -1,5 +1,6 @@
 package com.borisk58.caseaggregatorbackend.repositories;
 
+import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
 import com.borisk58.caseaggregatorbackend.model.Case;
 
 import java.util.List;
@@ -10,5 +11,5 @@ public interface CasesRepository {
     List<Case> findCases(String crmName, int version);
     List<Case> findAllCases();
 
-    void aggregate();
+    List<AggregatedCase> aggregate(int version);
 }

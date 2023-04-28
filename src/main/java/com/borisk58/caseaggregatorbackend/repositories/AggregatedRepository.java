@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface AggregatedRepository {
     List<AggregatedCase> findAllAggregated(int provider, int errorCode, CaseStatus caseStatus);
+    void saveAggregated(List<AggregatedCase> aggregated);
 }

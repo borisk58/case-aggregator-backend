@@ -1,6 +1,7 @@
 package com.borisk58.caseaggregatorbackend.repositories;
 
 import com.borisk58.caseaggregatorbackend.model.UpdateStatus;
+import org.springframework.data.domain.Example;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
@@ -25,5 +26,14 @@ public class StatusRepositoryImpl extends SimpleMongoRepository implements Statu
     @Override
     public List<UpdateStatus> findAllStatuses() {
         return super.findAll();
+    }
+
+    @Override
+    public int getVersion(String key) {
+        UpdateStatus status = new UpdateStatus();
+        status.setCrm(key);
+        Example<UpdateStatus> example = Example.of(status);
+        UpdateStatus saved = (UpdateStatus) super.findOne(example).get();
+        return saved.getUpdateVersion();
     }
 }

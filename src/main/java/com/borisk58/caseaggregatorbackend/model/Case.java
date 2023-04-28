@@ -17,7 +17,23 @@ public class Case {
   private int customerID;
 
   @JsonProperty("Provider")
-  private String provider;
+  private Integer provider;
+
+  public Integer getProvider() {
+    return provider;
+  }
+
+  public Integer getErrorCode() {
+    return errorCode;
+  }
+
+  public CaseStatus getStatus() {
+    return status;
+  }
+
+  public String getProductName() {
+    return productName;
+  }
 
   @JsonProperty("CREATED_ERROR_CODE")
   private Integer errorCode;

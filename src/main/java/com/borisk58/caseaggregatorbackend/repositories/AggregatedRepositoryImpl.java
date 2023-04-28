@@ -23,4 +23,10 @@ public class AggregatedRepositoryImpl extends SimpleMongoRepository<AggregatedCa
         Example<AggregatedCase> example = Example.of(aggregatedCase);
         return super.findAll(example);
     }
+
+    @Override
+    public void saveAggregated(List<AggregatedCase> aggregated) {
+        super.saveAll(aggregated);
+    }
+
 }

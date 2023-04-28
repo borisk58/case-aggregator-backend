@@ -8,7 +8,7 @@ import java.util.List;
 public class AggregatedCase {
     private int errorCode;
     private int version;
-    Integer provider;
+    int provider;
     CaseStatus requiredStatus;
     private List<String> affectedProducts;
     private List<Case> cases;
@@ -37,11 +37,11 @@ public class AggregatedCase {
         this.affectedProducts = affectedProducts;
     }
 
-    public Integer getProvider() {
+    public int getProvider() {
         return provider;
     }
 
-    public void setProvider(Integer provider) {
+    public void setProvider(int provider) {
         this.provider = provider;
     }
 

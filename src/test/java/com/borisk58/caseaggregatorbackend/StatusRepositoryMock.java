@@ -2,6 +2,7 @@ package com.borisk58.caseaggregatorbackend;
 
 import com.borisk58.caseaggregatorbackend.model.UpdateStatus;
 import com.borisk58.caseaggregatorbackend.repositories.StatusRepository;
+import org.springframework.data.domain.Example;
 
 import java.time.LocalDateTime;
 import java.util.Hashtable;
@@ -29,5 +30,11 @@ public class StatusRepositoryMock implements StatusRepository {
     @Override
     public List<UpdateStatus> findAllStatuses() {
         return statusMap.values().stream().toList();
+    }
+
+    @Override
+    public int getVersion(String key) {
+        UpdateStatus updateStatus = statusMap.getOrDefault(key, null);
+        return updateStatus == null ? 0 : updateStatus.getUpdateVersion();
     }
 }

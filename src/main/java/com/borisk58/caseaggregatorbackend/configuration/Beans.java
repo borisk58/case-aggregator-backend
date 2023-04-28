@@ -63,7 +63,8 @@ public class Beans {
     public CrmFetcherService crmFetcherService() {
         CasesRepositoryImpl casesRepository = new CasesRepositoryImpl(caseMetadata(), mongoTemplate());
         StatusRepositoryImpl statusRepository = new StatusRepositoryImpl(statusMetadata(), mongoTemplate());
-        return new CrmFetcherService(casesRepository, statusRepository);
+        AggregatedRepositoryImpl aggregatedRepository = new AggregatedRepositoryImpl(aggregatedMetadata(), mongoTemplate());
+        return new CrmFetcherService(casesRepository, statusRepository, aggregatedRepository);
     }
 
     @Bean
