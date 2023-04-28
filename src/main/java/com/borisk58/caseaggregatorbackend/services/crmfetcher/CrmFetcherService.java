@@ -1,13 +1,12 @@
 package com.borisk58.caseaggregatorbackend.services.crmfetcher;
 
 import com.borisk58.caseaggregatorbackend.repositories.CasesRepository;
-import com.borisk58.caseaggregatorbackend.repositories.UpdateStatusRepository;
+import com.borisk58.caseaggregatorbackend.repositories.StatusRepository;
 import com.borisk58.caseaggregatorbackend.model.Case;
 import com.borisk58.caseaggregatorbackend.model.UpdateStatus;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -19,16 +18,16 @@ public class CrmFetcherService {
 
     private final CasesRepository repository;
 
-    @Autowired
-    UpdateStatusRepository statusRepository;
+    private final StatusRepository statusRepository;
 
     protected int intervalHours = 4;
 
     protected final Map<String, Integer> currentVersion = new ConcurrentHashMap<>();
     private ScheduledExecutorService scheduler;
 
-    public CrmFetcherService(CasesRepository repository) {
+    public CrmFetcherService(CasesRepository repository, StatusRepository statusRepository) {
         this.repository = repository;
+        this.statusRepository = statusRepository;
     }
 
     @PostConstruct
@@ -47,7 +46,7 @@ public class CrmFetcherService {
     }
 
     private void updateStatus() {
-        List<UpdateStatus> updateStatuses = statusRepository.findAll();
+        List<UpdateStatus> updateStatuses = statusRepository.findAllStatuses();
         currentVersion.clear();
         for (UpdateStatus status : updateStatuses) {
             currentVersion.put(status.getCrm(), status.getUpdateVersion());
@@ -91,12 +90,7 @@ public class CrmFetcherService {
             List<Case> toDelete = repository.findCases(crmName, version);
             repository.deleteCases(toDelete);
 
-            UpdateStatus status = new UpdateStatus();
-            status.setCrm(crmName);
-            status.setUpdateVersion(finalVersion);
-            status.setLastUpdated(LocalDateTime.now());
-            statusRepository.save(status);
-
+            statusRepository.saveStatus(crmName, finalVersion);
             updateStatus();
 
         } catch (IOException e) {

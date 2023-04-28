@@ -34,8 +34,17 @@ public class Case {
   @JsonProperty("PRODUCT_NAME")
   private String productName;
 
+  public String getCrm() {
+    return crm;
+  }
+
   // internal extensions
   private String crm;
+
+  public int getVersion() {
+    return version;
+  }
+
   private int version;
 
   @MongoId

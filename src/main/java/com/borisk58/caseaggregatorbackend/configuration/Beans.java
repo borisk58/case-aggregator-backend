@@ -2,8 +2,10 @@ package com.borisk58.caseaggregatorbackend.configuration;
 
 import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
 import com.borisk58.caseaggregatorbackend.model.Case;
+import com.borisk58.caseaggregatorbackend.model.UpdateStatus;
 import com.borisk58.caseaggregatorbackend.repositories.AggregatedRepositoryImpl;
 import com.borisk58.caseaggregatorbackend.repositories.CasesRepositoryImpl;
+import com.borisk58.caseaggregatorbackend.repositories.StatusRepositoryImpl;
 import com.borisk58.caseaggregatorbackend.services.aggregator.AggregatorService;
 import com.borisk58.caseaggregatorbackend.services.crmfetcher.CrmFetcherService;
 import com.mongodb.ConnectionString;
@@ -46,8 +48,15 @@ public class Beans {
     }
 
     @Bean
+    MongoEntityInformation<UpdateStatus, String> statusMetadata() {
+        MongoRepositoryFactory factory = new MongoRepositoryFactory(mongoTemplate());
+        return factory.getEntityInformation(UpdateStatus.class);
+    }
+    @Bean
     public CrmFetcherService crmFetcherService() {
-        return new CrmFetcherService(new CasesRepositoryImpl(caseMetadata(), mongoTemplate()));
+        CasesRepositoryImpl casesRepository = new CasesRepositoryImpl(caseMetadata(), mongoTemplate());
+        StatusRepositoryImpl statusRepository = new StatusRepositoryImpl(statusMetadata(), mongoTemplate());
+        return new CrmFetcherService(casesRepository, statusRepository);
     }
 
     @Bean
