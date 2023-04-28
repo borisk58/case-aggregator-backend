@@ -16,12 +16,16 @@ public class AggregatedRepositoryImpl extends SimpleMongoRepository<AggregatedCa
 
     @Override
     public List<AggregatedCase> findAllAggregated(int provider, int errorCode, CaseStatus caseStatus) {
-        AggregatedCase aggregatedCase = new AggregatedCase();
-        aggregatedCase.setProvider(provider);
-        aggregatedCase.setErrorCode(errorCode);
-        aggregatedCase.setRequiredStatus(caseStatus);
-        Example<AggregatedCase> example = Example.of(aggregatedCase);
-        return super.findAll(example);
+        if (provider >= 0 || errorCode >= 0 || caseStatus != CaseStatus.Any) {
+            AggregatedCase aggregatedCase = new AggregatedCase();
+            if (provider >= 0) aggregatedCase.setProvider(provider);
+            if (errorCode >= 0) aggregatedCase.setErrorCode(errorCode);
+            if (caseStatus != CaseStatus.Any) aggregatedCase.setRequiredStatus(caseStatus);
+            Example<AggregatedCase> example = Example.of(aggregatedCase);
+            return super.findAll(example);
+        } else {
+            return super.findAll();
+        }
     }
 
     @Override
