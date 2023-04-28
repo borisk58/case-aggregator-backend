@@ -41,6 +41,10 @@ public class Case {
   @MongoId
   private String caseId;
 
+  public String getCaseId() {
+    return caseId;
+  }
+
   public void setCaseId(String caseId) {
     this.caseId = crm + "::" + originalCaseID;
   }
