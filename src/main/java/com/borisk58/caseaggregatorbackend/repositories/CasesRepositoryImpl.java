@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.SimpleMongoRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +61,8 @@ public class CasesRepositoryImpl extends SimpleMongoRepository<Case, Integer> im
                 agg = new AggregatedCase();
                 agg.setErrorCode(errorCode);
                 agg.setProvider(provider);
+                agg.setCases(new ArrayList<>());
+                agg.setAffectedProducts(new ArrayList<>());
                 aggregatedCaseMap.put(key, agg);
             } else {
                 agg = aggregatedCaseMap.get(key);

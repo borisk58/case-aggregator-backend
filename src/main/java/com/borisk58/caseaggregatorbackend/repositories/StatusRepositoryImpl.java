@@ -8,8 +8,9 @@ import org.springframework.data.mongodb.repository.support.SimpleMongoRepository
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
-public class StatusRepositoryImpl extends SimpleMongoRepository implements StatusRepository {
+public class StatusRepositoryImpl extends SimpleMongoRepository<UpdateStatus, String> implements StatusRepository {
     public StatusRepositoryImpl(MongoEntityInformation metadata, MongoOperations mongoOperations) {
         super(metadata, mongoOperations);
     }
@@ -18,7 +19,6 @@ public class StatusRepositoryImpl extends SimpleMongoRepository implements Statu
     public void saveStatus(String crm, int version) {
         UpdateStatus status = new UpdateStatus();
         status.setCrm(crm);
-        status.setUpdateVersion(version);
         status.setLastUpdated(LocalDateTime.now());
         super.save(status);
     }
@@ -33,7 +33,8 @@ public class StatusRepositoryImpl extends SimpleMongoRepository implements Statu
         UpdateStatus status = new UpdateStatus();
         status.setCrm(key);
         Example<UpdateStatus> example = Example.of(status);
-        UpdateStatus saved = (UpdateStatus) super.findOne(example).get();
-        return saved.getUpdateVersion();
+        Optional<UpdateStatus> updateStatus = super.findOne(example);
+        return updateStatus.map(UpdateStatus::getUpdateVersion).orElse(0);
     }
+
 }
