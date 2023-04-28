@@ -33,4 +33,12 @@ public class AggregatedRepositoryImpl extends SimpleMongoRepository<AggregatedCa
         super.saveAll(aggregated);
     }
 
+    @Override
+    public void deleteVersion(int version) {
+        AggregatedCase agg = new AggregatedCase();
+        agg.setVersion(version);
+        Example<AggregatedCase> example = Example.of(agg);
+        super.deleteAll(super.findAll(example));
+    }
+
 }

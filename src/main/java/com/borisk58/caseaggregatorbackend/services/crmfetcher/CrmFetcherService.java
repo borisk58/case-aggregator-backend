@@ -106,7 +106,8 @@ public class CrmFetcherService {
 
     private void aggregateCases() {
         int version = statusRepository.getVersion("aggregated");
-        List<AggregatedCase> aggregated = repository.aggregate(version);
+        List<AggregatedCase> aggregated = repository.aggregate(version + 1);
         aggregatedRepository.saveAggregated(aggregated);
+        aggregatedRepository.deleteVersion(version);
     }
 }

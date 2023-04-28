@@ -16,4 +16,9 @@ public class AggregatedRepositoryMock implements AggregatedRepository {
     public void saveAggregated(List<AggregatedCase> aggregated) {
 
     }
+
+    @Override
+    public void deleteVersion(int version) {
+
+    }
 }
