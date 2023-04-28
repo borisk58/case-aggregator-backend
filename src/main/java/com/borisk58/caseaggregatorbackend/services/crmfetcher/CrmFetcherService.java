@@ -8,7 +8,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 
 import java.io.*;
 import java.time.LocalDateTime;
@@ -17,8 +16,8 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 public class CrmFetcherService {
-    @Autowired
-    CasesRepository repository;
+
+    private final CasesRepository repository;
 
     @Autowired
     UpdateStatusRepository statusRepository;
@@ -26,12 +25,17 @@ public class CrmFetcherService {
     protected int intervalHours = 4;
 
     protected final Map<String, Integer> currentVersion = new ConcurrentHashMap<>();
+    private ScheduledExecutorService scheduler;
+
+    public CrmFetcherService(CasesRepository repository) {
+        this.repository = repository;
+    }
 
     @PostConstruct
     public void startFetching() {
         updateStatus(); // get initial state
 
-        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(new Fetcher(), 0, intervalHours, TimeUnit.HOURS);
     }
 
@@ -44,7 +48,6 @@ public class CrmFetcherService {
 
     private void updateStatus() {
         List<UpdateStatus> updateStatuses = statusRepository.findAll();
-
         currentVersion.clear();
         for (UpdateStatus status : updateStatuses) {
             currentVersion.put(status.getCrm(), status.getUpdateVersion());
@@ -52,7 +55,8 @@ public class CrmFetcherService {
     }
 
     public void stopFetching() {
-
+        if (scheduler != null)
+            scheduler.shutdown();
     }
 
     public void fetchCases() {
@@ -70,11 +74,11 @@ public class CrmFetcherService {
             version = currentVersion.get(crmName);
         }
 
-        // so far, read from <crmName>.json and save to mongodb
         ObjectMapper mapper = new ObjectMapper();
         TypeReference<List<Case>> typeReference = new TypeReference<>() {};
         List<Case> cases;
         try {
+            // so far, read from <crmName>.json as if it was a response from CRM, and save to mongodb
             cases = mapper.readValue(new File("data/" + crmName + ".json"), typeReference);
             int finalVersion = version + 1;
             cases.forEach(c -> {
@@ -82,14 +86,10 @@ public class CrmFetcherService {
                 c.setVersion(finalVersion);
                 c.setCaseId(c.getOriginalCaseID());
             });
-            repository.saveAll(cases);
+            repository.saveCases(cases);
 
-            Case caseToDelete = new Case();
-            caseToDelete.setCrm(crmName);
-            caseToDelete.setVersion(version);
-            Example<Case> example = Example.of(caseToDelete);
-            List<Case> toDelete = repository.findAll(example);
-            repository.deleteAll(toDelete);
+            List<Case> toDelete = repository.findCases(crmName, version);
+            repository.deleteCases(toDelete);
 
             UpdateStatus status = new UpdateStatus();
             status.setCrm(crmName);
@@ -102,5 +102,9 @@ public class CrmFetcherService {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void aggregateCases() {
+        List<Case> cases = repository.findAllCases();
     }
 }

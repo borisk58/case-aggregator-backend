@@ -1,5 +1,9 @@
 package com.borisk58.caseaggregatorbackend.configuration;
 
+import com.borisk58.caseaggregatorbackend.model.AggregatedCase;
+import com.borisk58.caseaggregatorbackend.model.Case;
+import com.borisk58.caseaggregatorbackend.repositories.AggregatedRepositoryImpl;
+import com.borisk58.caseaggregatorbackend.repositories.CasesRepositoryImpl;
 import com.borisk58.caseaggregatorbackend.services.aggregator.AggregatorService;
 import com.borisk58.caseaggregatorbackend.services.crmfetcher.CrmFetcherService;
 import com.mongodb.ConnectionString;
@@ -11,11 +15,13 @@ import com.mongodb.client.MongoClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
+import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
 
 @Configuration
 public class Beans {
     @Bean
-    public MongoTemplate mongoTemplate() throws Exception {
+    public MongoTemplate mongoTemplate() {
         ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017");
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
@@ -28,10 +34,29 @@ public class Beans {
     }
 
     @Bean
-    public AggregatorService aggregatorService() {
-        return new AggregatorService();
+    MongoEntityInformation<Case, Integer> caseMetadata() {
+        MongoRepositoryFactory factory = new MongoRepositoryFactory(mongoTemplate());
+        return factory.getEntityInformation(Case.class);
     }
 
     @Bean
-    public CrmFetcherService crmFetcherService() { return new CrmFetcherService(); }
+    MongoEntityInformation<AggregatedCase, Integer> aggregatedMetadata() {
+        MongoRepositoryFactory factory = new MongoRepositoryFactory(mongoTemplate());
+        return factory.getEntityInformation(AggregatedCase.class);
+    }
+
+    @Bean
+    public CrmFetcherService crmFetcherService() {
+        return new CrmFetcherService(new CasesRepositoryImpl(caseMetadata(), mongoTemplate()));
+    }
+
+    @Bean
+    public AggregatorService aggregatorService() {
+        return new AggregatorService(new AggregatedRepositoryImpl(aggregatedMetadata(), mongoTemplate()));
+    }
+
 }
+
+
+
+

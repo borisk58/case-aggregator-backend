@@ -34,7 +34,7 @@ public class CaseController {
         CaseStatus requiredStatus = caseStatus == null ? CaseStatus.Any : CaseStatus.valueOf(caseStatus.toString());
         int providerId = provider == null ? -1 : provider;
         int errorCodeId = errorCode == null ? -1 : errorCode;
-        List<AggregatedCase> aggregatedCases = aggregatorService.fetchCases(providerId, errorCodeId, requiredStatus);
+        List<AggregatedCase> aggregatedCases = aggregatorService.fetchAggregatedCases(providerId, errorCodeId, requiredStatus);
 
         if (aggregatedCases == null)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
