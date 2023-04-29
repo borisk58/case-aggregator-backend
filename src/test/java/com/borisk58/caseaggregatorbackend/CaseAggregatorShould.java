@@ -50,7 +50,7 @@ class CaseAggregatorShould {
 		fetcherService.fetchCasesFromCrm();
 		List<AggregatedCase> aggregatedCases = aggregatorService.fetchAggregatedCases(1211, null, CaseStatus.Any);
 		Assert.isTrue((long) aggregatedCases.size() == 1, "Unexpected number of cases, expected 1");
-		Assert.isTrue(aggregatedCases.stream().allMatch(c -> c.getProvider() == 1211), "Irrelevant error code found, all should be 101");
+		Assert.isTrue(aggregatedCases.stream().allMatch(c -> c.getProvider() == 1211), "Irrelevant provider found, all should be 1211");
 	}
 
 	@Test
