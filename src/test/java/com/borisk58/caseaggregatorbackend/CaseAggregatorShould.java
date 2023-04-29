@@ -13,12 +13,11 @@ import java.util.List;
 @SpringBootTest
 class CaseAggregatorShould {
 
-	private final AggregatedRepositoryMock aggregatedRepo;
 	private final CrmFetcherService fetcherService;
 	private final AggregatorService aggregatorService;
 
 	CaseAggregatorShould() {
-		this.aggregatedRepo = new AggregatedRepositoryMock();
+		AggregatedRepositoryMock aggregatedRepo = new AggregatedRepositoryMock();
 		this.fetcherService = new CrmFetcherService(aggregatedRepo);
 		this.aggregatorService = new AggregatorService(aggregatedRepo);
 	}
