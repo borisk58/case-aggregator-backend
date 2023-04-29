@@ -27,8 +27,8 @@ public class CaseController {
             @RequestParam(value = "caseStatus", required = false) String caseStatus,
             @RequestParam(value = "refresh", required = false) Boolean refresh) {
 
-        if (refresh) {
-            crmFetcherService.fetchCases();
+        if (refresh != null && refresh) {
+            crmFetcherService.fetchCasesFromCrm();
         }
 
         CaseStatus requiredStatus;

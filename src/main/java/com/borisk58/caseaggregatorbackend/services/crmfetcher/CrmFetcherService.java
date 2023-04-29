@@ -41,7 +41,7 @@ public class CrmFetcherService {
     class Fetcher implements Runnable {
         @Override
         public void run() {
-            fetchCases();
+            fetchCasesFromCrm();
         }
     }
 
@@ -52,7 +52,7 @@ public class CrmFetcherService {
 
     private final Map<String, AggregatedCase> aggregatedCaseMap = new Hashtable<>();
 
-    public void fetchCases() {
+    public void fetchCasesFromCrm() {
         if (isFetching) return;
         isFetching = true;
         try {
