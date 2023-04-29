@@ -14,7 +14,7 @@ public class AggregatorService {
     }
 
 
-    public List<AggregatedCase> fetchAggregatedCases(int provider, int errorCode, CaseStatus caseStatus) {
+    public List<AggregatedCase> fetchAggregatedCases(Integer provider, Integer errorCode, CaseStatus caseStatus) {
         try {
             return repository.findAllAggregated(provider, errorCode, caseStatus);
         } catch (Exception e) {

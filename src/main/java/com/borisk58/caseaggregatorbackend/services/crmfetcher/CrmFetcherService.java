@@ -6,6 +6,7 @@ import com.borisk58.caseaggregatorbackend.repositories.AggregatedRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,9 +22,11 @@ public class CrmFetcherService {
 
     private final AggregatedRepository aggregatedRepository;
 
-    protected int intervalHours = 4;
+    @Value("${crm.fetch.interval}")
+    protected int intervalHours;
 
     private ScheduledExecutorService scheduler;
+    private boolean isFetching;
 
     public CrmFetcherService(AggregatedRepository aggregatedRepository) {
         this.aggregatedRepository = aggregatedRepository;
@@ -50,10 +53,16 @@ public class CrmFetcherService {
     private final Map<String, AggregatedCase> aggregatedCaseMap = new Hashtable<>();
 
     public void fetchCases() {
-        aggregatedCaseMap.clear();
-        fetchCrm("banana");
-        fetchCrm("strawberry");
-        aggregatedRepository.saveAggregated(aggregatedCaseMap.values().stream().toList());
+        if (isFetching) return;
+        isFetching = true;
+        try {
+            aggregatedCaseMap.clear();
+            fetchCrm("banana");
+            fetchCrm("strawberry");
+            aggregatedRepository.saveAggregated(aggregatedCaseMap.values().stream().toList());
+        } finally {
+            isFetching=false;
+        }
     }
 
     private void fetchCrm(String crmName) {

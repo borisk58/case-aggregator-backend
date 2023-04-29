@@ -31,10 +31,13 @@ public class CaseController {
             crmFetcherService.fetchCases();
         }
 
-        CaseStatus requiredStatus = caseStatus == null ? CaseStatus.Any : CaseStatus.valueOf(caseStatus);
-        int providerId = provider == null ? -1 : provider;
-        int errorCodeId = errorCode == null ? -1 : errorCode;
-        List<AggregatedCase> aggregatedCases = aggregatorService.fetchAggregatedCases(providerId, errorCodeId, requiredStatus);
+        CaseStatus requiredStatus;
+        try {
+            requiredStatus = caseStatus == null ? CaseStatus.Any : CaseStatus.valueOf(caseStatus);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        List<AggregatedCase> aggregatedCases = aggregatorService.fetchAggregatedCases(provider, errorCode, requiredStatus);
 
         if (aggregatedCases == null)
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

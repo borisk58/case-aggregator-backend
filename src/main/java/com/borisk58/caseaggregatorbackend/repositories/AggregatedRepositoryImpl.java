@@ -15,7 +15,7 @@ public class AggregatedRepositoryImpl extends SimpleMongoRepository<AggregatedCa
     }
 
     @Override
-    public List<AggregatedCase> findAllAggregated(int provider, int errorCode, CaseStatus caseStatus) {
+    public List<AggregatedCase> findAllAggregated(Integer provider, Integer errorCode, CaseStatus caseStatus) {
 //        if (provider >= 0 || errorCode >= 0 || caseStatus != CaseStatus.Any) {
 //            AggregatedCase aggregatedCase = new AggregatedCase();
 //            if (provider >= 0) aggregatedCase.setProvider(provider);
@@ -27,9 +27,9 @@ public class AggregatedRepositoryImpl extends SimpleMongoRepository<AggregatedCa
 //            return super.findAll();
 //        }
         List<AggregatedCase> result = super.findAll();
-        if (provider >= 0)
+        if (provider != null)
             result = result.stream().filter(c -> c.getProvider() == provider).collect(Collectors.toList());
-        if (errorCode >= 0)
+        if (errorCode != null)
             result = result.stream().filter(c -> c.getErrorCode() == errorCode).collect(Collectors.toList());
         if (caseStatus != CaseStatus.Any)
             result = result.stream().filter(c -> c.getCases().stream().allMatch(x -> x.getStatus() == caseStatus)).collect(Collectors.toList());
