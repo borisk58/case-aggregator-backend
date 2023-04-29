@@ -1,5 +1,6 @@
 package com.borisk58.caseaggregatorbackend;
 
+import com.borisk58.caseaggregatorbackend.services.crmfetcher.CrmFetcherService;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -12,9 +13,9 @@ class CaseAggregatorShould {
 
 	@Test
 	void insertAllNewCases() {
-//		AggregatedRepositoryMock aggregatedRepo = new AggregatedRepositoryMock();
-//		CrmFetcherService fetcherService = new CrmFetcherService(aggregatedRepo);
-//		fetcherService.fetchCases();
+		AggregatedRepositoryMock aggregatedRepo = new AggregatedRepositoryMock();
+		CrmFetcherService fetcherService = new CrmFetcherService(aggregatedRepo);
+		fetcherService.fetchCases();
 	}
 
 	@Test

@@ -63,13 +63,7 @@ public class CrmFetcherService {
         try {
             // so far, read from <crmName>.json as if it was a response from CRM, and save to mongodb
             cases = mapper.readValue(new File("data/" + crmName + ".json"), typeReference);
-//            cases.forEach(c -> {
-//                c.setCrm(crmName);
-//                c.setCaseId(c.getOriginalCaseID());
-//            });
-
             updateAggregated(cases);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

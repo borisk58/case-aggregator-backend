@@ -24,14 +24,14 @@ public class CaseController {
     public ResponseEntity<List<AggregatedCase>> getAggregatedCases(
             @RequestParam(value = "provider", required = false) Integer provider,
             @RequestParam(value = "errorCode", required = false) Integer errorCode,
-            @RequestParam(value = "caseStatus", required = false) Integer caseStatus,
-            @RequestParam(value = "refresh", required = false) boolean refresh) {
+            @RequestParam(value = "caseStatus", required = false) String caseStatus,
+            @RequestParam(value = "refresh", required = false) Boolean refresh) {
 
         if (refresh) {
             crmFetcherService.fetchCases();
         }
 
-        CaseStatus requiredStatus = caseStatus == null ? CaseStatus.Any : CaseStatus.valueOf(caseStatus.toString());
+        CaseStatus requiredStatus = caseStatus == null ? CaseStatus.Any : CaseStatus.valueOf(caseStatus);
         int providerId = provider == null ? -1 : provider;
         int errorCodeId = errorCode == null ? -1 : errorCode;
         List<AggregatedCase> aggregatedCases = aggregatorService.fetchAggregatedCases(providerId, errorCodeId, requiredStatus);

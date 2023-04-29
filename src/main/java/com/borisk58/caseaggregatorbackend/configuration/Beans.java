@@ -17,7 +17,7 @@ import org.springframework.data.mongodb.repository.query.MongoEntityInformation;
 import org.springframework.data.mongodb.repository.support.MongoRepositoryFactory;
 
 @Configuration
-class Beans {
+public class Beans {
 //    @Value("${spring.data.mongodb.uri}")
 //    String databaseUri;
 //
