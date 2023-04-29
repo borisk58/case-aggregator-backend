@@ -27,11 +27,16 @@ If no parameters provided, all the aggregated cases are returned
 <p><b>http://aggregated.cases.com/cases?errorCode=324;caseStatus=Open;provider=458</b>
 
 # Config parameters
+See the standard config file src/main/resources/application.properties
 <ul>
-<li> mongodb config string </li>
+<li> mongodb connection string (URI) </li>
 <li> mongodb database name </li>
 <li> CRM synchronization interval (default 4 hours) </li>
 </ul>
+
+# Requires
+Local [MongoDB](https://www.mongodb.com/docs/manual/installation/) <br>
+Mongo shell [mongosh](https://www.mongodb.com/docs/mongodb-shell/)
 
 
 
