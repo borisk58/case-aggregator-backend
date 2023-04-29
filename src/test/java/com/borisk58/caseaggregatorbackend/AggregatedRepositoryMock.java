@@ -16,5 +16,4 @@ public class AggregatedRepositoryMock implements AggregatedRepository {
     public void saveAggregated(List<AggregatedCase> aggregated) {
 
     }
-
 }

@@ -10,6 +10,7 @@ import com.mongodb.ServerApi;
 import com.mongodb.ServerApiVersion;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -18,16 +19,15 @@ import org.springframework.data.mongodb.repository.support.MongoRepositoryFactor
 
 @Configuration
 public class Beans {
-//    @Value("${spring.data.mongodb.uri}")
-//    String databaseUri;
-//
-//    @Value("${spring.data.mongodb.database}")
-//    String databaseName;
+    @Value("${spring.data.mongodb.uri}")
+    String databaseUri;
+
+    @Value("${spring.data.mongodb.database}")
+    String databaseName;
 
     @Bean
     public MongoTemplate mongoTemplate() {
-        //ConnectionString connectionString = new ConnectionString(this.databaseUri);
-        ConnectionString connectionString = new ConnectionString("mongodb://localhost:27017/");
+        ConnectionString connectionString = new ConnectionString(this.databaseUri);
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connectionString)
                 .serverApi(ServerApi.builder()
@@ -35,8 +35,7 @@ public class Beans {
                         .build())
                 .build();
         MongoClient mongoClient = MongoClients.create(settings);
-        return new MongoTemplate(mongoClient, "aggregated-cases");
-//        return new MongoTemplate(mongoClient, databaseName);
+        return new MongoTemplate(mongoClient, databaseName);
     }
 
     @Bean
