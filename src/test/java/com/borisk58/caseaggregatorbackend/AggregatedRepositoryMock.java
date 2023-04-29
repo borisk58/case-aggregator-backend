@@ -17,8 +17,4 @@ public class AggregatedRepositoryMock implements AggregatedRepository {
 
     }
 
-    @Override
-    public void deleteVersion(int version) {
-
-    }
 }
